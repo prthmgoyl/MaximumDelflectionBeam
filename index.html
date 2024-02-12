@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DL Model Input</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    .container {
+        max-width: 600px;
+        margin: auto;
+    }
+    .input-group {
+        margin-bottom: 15px;
+    }
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 104%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #output {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #060000;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+</style>
+<script>
+    // Function to update output with prediction value
+    function updateOutput(predictionValue) {
+        document.getElementById('output').innerText = 'Max Deformation: ' + predictionValue;
+    }
+
+    // Function to handle form submission
+    function submitForm(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        // Collect form data
+        var formData = new FormData(document.querySelector('form'));
+
+        // Send form data to backend
+        fetch('/predict', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(predictionValue => updateOutput(predictionValue))
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+</head>
+<body>
+
+<h1>Model Input</h1>
+
+<div class="container">
+    <form onsubmit="submitForm(event)">
+        <div class="input-group">
+            <label for="height">Height:</label>
+            <input type="number" id="height" name="height" required>
+        </div>
+        <div class="input-group">
+            <label for="width">Width:</label>
+            <input type="number" id="width" name="width" required>
+        </div>
+        <div class="input-group">
+            <label for="section_area">Section Area:</label>
+            <input type="number" id="section_area" name="section_area" required>
+        </div>
+        <div class="input-group">
+            <label for="length">Length:</label>
+            <input type="number" id="length" name="length" required>
+        </div>
+        <div class="input-group">
+            <label for="half_span">Half Span:</label>
+            <input type="number" id="half_span" name="half_span" required>
+        </div>
+        <div class="input-group">
+            <label for="a_d">A/D:</label>
+            <input type="number" id="a_d" name="a_d" required>
+        </div>
+        <div class="input-group">
+            <label for="i">I:</label>
+            <input type="number" id="i" name="i" required>
+        </div>
+        <div class="input-group">
+            <label for="mass">Mass:</label>
+            <input type="number" id="mass" name="mass" required>
+        </div>
+        <div class="input-group">
+            <label for="velocity">Velocity:</label>
+            <input type="number" id="velocity" name="velocity" required>
+        </div>
+        <div class="input-group">
+            <label for="energy">Energy:</label>
+            <input type="number" id="energy" name="energy" required>
+        </div>
+        <div class="input-group">
+            <label for="pl">Pl:</label>
+            <input type="number" id="pl" name="pl" required>
+        </div>
+        <div class="input-group">
+            <label for="pt">Pt:</label>
+            <input type="number" id="pt" name="pt" required>
+        </div>
+        <div class="input-group">
+            <label for="concrete">Concrete:</label>
+            <input type="number" id="concrete" name="concrete" required>
+        </div>
+        <div class="input-group">
+            <label for="steel">Steel:</label>
+            <input type="number" id="steel" name="steel" required>
+        </div>
+        <div class="input-group">
+            <label for="hoop">Hoop:</label>
+            <input type="number" id="hoop" name="hoop" required>
+        </div>
+        
+        <button type="submit" value="predict">Calculate Max Deformation</button>
+        <br>
+        <br>
+    </form>
+
+    <output id="output"></output>
+</div>
+
+
+</body>
+</html>
